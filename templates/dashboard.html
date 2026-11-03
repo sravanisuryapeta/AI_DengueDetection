@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card stats-card p-3 text-center text-white bg-primary">
+            <h6>Total Records Analyzed</h6>
+            <h2>{{ stats.total }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stats-card p-3 text-center text-white bg-danger">
+            <h6>Dengue Positive Cases</h6>
+            <h2>{{ stats.pos }}</h2>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card stats-card p-3 text-center text-white bg-success">
+            <h6>Avg Platelet Count</h6>
+            <h2>{{ stats.avg_plt }}</h2>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card p-4 h-100">
+            <h4>Single Patient AI Check</h4>
+            <form action="/dashboard" method="POST"> <div class="row g-2">
+        <div class="col-6"><input type="number" name="wbc" class="form-control" placeholder="WBC" required></div>
+        
+        <div class="col-6"><input type="number" name="platelets" class="form-control" placeholder="Platelets" required></div>
+        
+        <div class="col-6"><input type="number" step="0.1" name="hct" class="form-control" placeholder="HCT %" required></div>
+        
+        <div class="col-6"><input type="number" step="0.1" name="hb" class="form-control" placeholder="Hb" required></div>
+    </div>
+    <button type="submit" class="btn btn-dark w-100 mt-3">Run AI Diagnosis</button>
+</form>
+
+            {% if single_res %}
+            <div class="alert alert-{{ single_res.color }} mt-4 text-center">
+                <h5>Result: {{ single_res.status }}</h5>
+                <p>AI Confidence: {{ single_res.prob }}%</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card p-4 h-100">
+            <h4>Update Report Dataset</h4>
+            <p class="text-muted">Upload a new CSV to update visualizations and statistics.</p>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="file" name="dataset" class="form-control mb-3" required>
+                <button type="submit" class="btn btn-outline-primary w-100">Update Dashboard</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5">
+
+<div class="row">
+    <h3 class="mb-4">Visual Diagnostic Reports</h3>
+    {% for url in vis_urls %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+            <img src="data:image/png;base64,{{ url }}" class="card-img-top report-img">
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

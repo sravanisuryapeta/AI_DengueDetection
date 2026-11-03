@@ -1,0 +1,17 @@
+venv/
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+uploads/*
+.env
+.env.*
+!.env.example
+
+Execution.mp4
+
+# Temporary and generated files
+Execution.mp4
+.ipynb_checkpoints/
+venv/
+__pycache__/
+
